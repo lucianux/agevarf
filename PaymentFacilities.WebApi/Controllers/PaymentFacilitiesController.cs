@@ -30,10 +30,10 @@ namespace PaymentFacilities.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentFacility>> Post([FromBody] PaymentFacility pf)
         {
-            pf.Id = await _repository.GetNextId();
+            pf.IdNumber = await _repository.GetNextId();
+            pf.Id = Guid.NewGuid();
             await _repository.Create<PaymentFacility>(pf);
             return new OkObjectResult(pf);
         }
-
     }
 }
