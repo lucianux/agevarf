@@ -7,7 +7,7 @@ using PaymentFacilities.SharedKernel;
 using PaymentFacilities.SharedKernel.Interfaces;
 using PaymentFacilities.Core.Entities;
 
-namespace PaymentFacilities.Infrastructure.Data
+namespace PaymentFacilities.Infraestructure.Data
 {
     public class MongoDBRepository : IRepository
     {
@@ -18,17 +18,27 @@ namespace PaymentFacilities.Infrastructure.Data
             _dbContext = dbContext;
         }
 
-        public async Task<List<T>> ListAsync<T>()
+        public async Task<List<PaymentFacility>> ListAsync<PaymentFacility>() where PaymentFacility : BaseEntity
         {
-            return await _dbContext
-                .PaymentFacilities
+            IMongoCollection<PaymentFacility> facilities =
+                (IMongoCollection<PaymentFacility>) _dbContext.PaymentFacilities;
+
+            return await facilities
                 .Find(_ => true)
-                .ToListAsync<T>();
+                .ToListAsync();
         }
 
-        // public List<T> ListAll()
-        // {
-        //     //return new 
-        // }
+        public async Task Create<PaymentFacility>(PaymentFacility paymentFacility)
+        {
+            IMongoCollection<PaymentFacility> facilities =
+                (IMongoCollection<PaymentFacility>) _dbContext.PaymentFacilities;
+
+            await facilities.InsertOneAsync(paymentFacility);
+        }
+
+        public async Task<long> GetNextId()
+        {
+            return await _dbContext.PaymentFacilities.CountDocumentsAsync(new BsonDocument()) + 1;
+        }
     }
 }

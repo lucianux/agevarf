@@ -19,20 +19,20 @@ namespace PaymentFacilities.WebApi.Controllers
         }
 
         // GET: api/PaymentFacilities
-        // [HttpGet]
-        // public string Get()
-        // {
-        //     return "Hello";
-        // }
-
-        // GET: api/PaymentFacilities
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            //var items = (await _repository.ListAsync<PaymentFacility>());
-            //var items = _repository.ListAsync<PaymentFacility>();
-            var items = "sss";
+            var items = (await _repository.ListAsync<PaymentFacility>());
             return Ok(items);
+        }
+
+        // POST api/PaymentFacilities
+        [HttpPost]
+        public async Task<ActionResult<PaymentFacility>> Post([FromBody] PaymentFacility pf)
+        {
+            pf.Id = await _repository.GetNextId();
+            await _repository.Create<PaymentFacility>(pf);
+            return new OkObjectResult(pf);
         }
 
     }

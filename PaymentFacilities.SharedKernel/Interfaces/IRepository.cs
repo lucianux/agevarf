@@ -5,8 +5,8 @@ namespace PaymentFacilities.SharedKernel.Interfaces
 {
     public interface IRepository
     {
-        //List<T> ListAll() where T : BaseEntity;
-        Task<List<T>> ListAsync<T>();
-        //List<T> ListAll(); 
+        Task<List<T>> ListAsync<T>() where T : BaseEntity;
+        Task Create<T>(T paymentFacility);
+        Task<long> GetNextId();
     }
 }

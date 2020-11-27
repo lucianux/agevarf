@@ -1,4 +1,4 @@
-namespace PaymentFacilities.Infrastructure.Data.Config
+namespace PaymentFacilities.Infraestructure.Data.Config
 {
     public class MongoDBConfig
     {

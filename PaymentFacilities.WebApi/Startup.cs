@@ -11,7 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PaymentFacilities.SharedKernel.Interfaces;
 using PaymentFacilities.Infraestructure;
+using PaymentFacilities.Infraestructure.Data;
+using PaymentFacilities.Infraestructure.Data.Config;
 using Autofac;
 
 namespace PaymentFacilities.WebApi
@@ -31,6 +34,11 @@ namespace PaymentFacilities.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var config = new ServerConfig();
+            Configuration.Bind(config);
+            var todoContext = new AppDbContext(config.MongoDB);
+            var repo = new MongoDBRepository(todoContext);
+            services.AddSingleton<IRepository>(repo);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -38,11 +46,6 @@ namespace PaymentFacilities.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentFacilities.WebApi", Version = "v1" });
             });
         }
-
-		public void ConfigureContainer(ContainerBuilder builder)
-		{
-			builder.RegisterModule(new DefaultInfrastructureModule(_env.EnvironmentName == "Development"));
-		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

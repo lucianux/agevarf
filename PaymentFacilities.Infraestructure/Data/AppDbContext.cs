@@ -1,9 +1,9 @@
-using PaymentFacilities.Infrastructure.Data.Config;
+using PaymentFacilities.Infraestructure.Data.Config;
 using PaymentFacilities.Core.Entities;
 using MongoDB.Driver;
 using System;
 
-namespace PaymentFacilities.Infrastructure.Data
+namespace PaymentFacilities.Infraestructure.Data
 {
     public class AppDbContext
     {
@@ -11,7 +11,8 @@ namespace PaymentFacilities.Infrastructure.Data
 
         public AppDbContext(MongoDBConfig config)
         {
-
+            var client = new MongoClient(config.ConnectionString);
+            _db = client.GetDatabase(config.Database);
         }
 
         public IMongoCollection<PaymentFacility> PaymentFacilities =>
