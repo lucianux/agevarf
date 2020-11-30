@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,12 +19,24 @@ namespace PaymentFacilities.WebApi.Controllers
             _repository = repository;
         }
 
-        // GET: api/PaymentFacilities
-        [HttpGet]
+        // GET: api/PaymentFacilities/List
+        [HttpGet("list/")]
         public async Task<IActionResult> List()
         {
             var items = (await _repository.ListAsync<PaymentFacility>());
             return Ok(items);
+        }
+
+        // GET api/paymentFacilities/1
+        [HttpGet("getPaymentFacility/{id}")]
+        public async Task<ActionResult<PaymentFacility>> Get(long id)
+        {
+            var todo = await _repository.GetPaymentFacility<PaymentFacility>(id);
+
+            if (todo == null)
+                return new NotFoundResult();
+            
+            return new ObjectResult(todo);
         }
 
         // POST api/PaymentFacilities

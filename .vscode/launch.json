@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/TodoApp.dll",
+            "program": "${workspaceFolder}/PaymentFacilities.WebApi/bin/Debug/net5.0/PaymentFacilities.WebApi.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -30,7 +30,8 @@
                 }
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:3000"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/TodoApp.csproj"
+                "${workspaceFolder}/PaymentFacilities.WebApi/PaymentFacilities.WebApi.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
